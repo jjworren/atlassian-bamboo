@@ -30,11 +30,13 @@ RUN apt-get install -yq oracle-java7-installer git subversion
 RUN useradd --create-home -c "Bamboo role account" -s /bin/bash bamboo \
     && mkdir -p "${BAMBOO_INSTALL}" \
     && wget -qO- "https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-bamboo-${BAMBOO_VERSION}.tar.gz" | tar -xz --directory="${BAMBOO_INSTALL}" \
-    && chown -R bamboo:bamboo "${BAMBOO_INSTALL}" \
     && echo "set bamboo.home = ${BAMBOO_HOME}" > "${BAMBOO_INSTALL}/atlassian-bamboo-${BAMBOO_VERSION}/atlassian-bamboo/WEB-INF/classes/bamboo-init.properties"
 
 # Download and install mysql jdbc driver
 RUN wget -qO- http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.34.tar.gz | tar -xz --directory="${BAMBOO_INSTALL}/atlassian-bamboo-${BAMBOO_VERSION}/atlassian-bamboo/WEB-INF/lib/" "mysql-connector-java-5.1.34/mysql-connector-java-5.1.34-bin.jar"
+
+# Fix permissions
+RUN chown -R bamboo:bamboo "${BAMBOO_INSTALL}"
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
