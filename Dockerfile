@@ -33,7 +33,8 @@ RUN mkdir -p "${BAMBOO_INSTALL}" \
 
 # Download and install mysql jdbc driver
 RUN wget -qO- http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.34.tar.gz | tar -xz --directory="${BAMBOO_INSTALL}/atlassian-bamboo-${BAMBOO_VERSION}/atlassian-bamboo/WEB-INF/lib/" "mysql-connector-java-5.1.34/mysql-connector-java-5.1.34-bin.jar"
-RUN mv mysql-connector-java-5.1.34/mysql-connector-java-5.1.34-bin.jar . && rm -r mysql-connector-java-5.1.34
+RUN mv "${BAMBOO_INSTALL}/atlassian-bamboo-${BAMBOO_VERSION}/atlassian-bamboo/WEB-INF/lib/mysql-connector-java-5.1.34/mysql-connector-java-5.1.34-bin.jar" \
+	"${BAMBOO_INSTALL}/atlassian-bamboo-${BAMBOO_VERSION}/atlassian-bamboo/WEB-INF/lib/" && rm -r mysql-connector-java-5.1.34
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
