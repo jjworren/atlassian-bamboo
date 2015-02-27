@@ -40,6 +40,6 @@ RUN mv "/tmp/mysql-connector-java-5.1.34/mysql-connector-java-5.1.34-bin.jar" \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Dirs
-VOLUME["/var/atlassian/bamboo"]
+VOLUME ["/var/atlassian/bamboo"]
 
 ENTRYPOINT ${BAMBOO_INSTALL}/atlassian-bamboo-${BAMBOO_VERSION}/bin/start-bamboo.sh -fg
