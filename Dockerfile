@@ -10,7 +10,7 @@ MAINTAINER Jan Kubat "jan.kubat@release.cz"
 # Set environment 
 ENV BAMBOO_VERSION 5.7.2
 ENV BAMBOO_INSTALL /opt/atlassian/bamboo
-ENV BAMBOO_HOME    /home/bamboo
+ENV BAMBOO_HOME    /var/atlassian/bamboo
 
 # Expose ports
 EXPOSE 8085
@@ -32,12 +32,14 @@ RUN mkdir -p "${BAMBOO_INSTALL}" \
     && echo "set bamboo.home = ${BAMBOO_HOME}" > "${BAMBOO_INSTALL}/atlassian-bamboo-${BAMBOO_VERSION}/atlassian-bamboo/WEB-INF/classes/bamboo-init.properties"
 
 # Download and install mysql jdbc driver
-RUN wget -qO- http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.34.tar.gz | tar -xz --directory="${BAMBOO_INSTALL}/atlassian-bamboo-${BAMBOO_VERSION}/atlassian-bamboo/WEB-INF/lib/" "mysql-connector-java-5.1.34/mysql-connector-java-5.1.34-bin.jar"
-RUN mv "${BAMBOO_INSTALL}/atlassian-bamboo-${BAMBOO_VERSION}/atlassian-bamboo/WEB-INF/lib/mysql-connector-java-5.1.34/mysql-connector-java-5.1.34-bin.jar" \
+RUN wget -qO- http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.34.tar.gz | tar -xz --directory="/tmp" "mysql-connector-java-5.1.34/mysql-connector-java-5.1.34-bin.jar"
+RUN mv "/tmp/mysql-connector-java-5.1.34/mysql-connector-java-5.1.34-bin.jar" \
 	"${BAMBOO_INSTALL}/atlassian-bamboo-${BAMBOO_VERSION}/atlassian-bamboo/WEB-INF/lib/" \
-	&& rm -r "${BAMBOO_INSTALL}/atlassian-bamboo-${BAMBOO_VERSION}/atlassian-bamboo/WEB-INF/lib/mysql-connector-java-5.1.34"
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Dirs
+VOLUME["/var/atlassian/bamboo"]
 
 ENTRYPOINT ${BAMBOO_INSTALL}/atlassian-bamboo-${BAMBOO_VERSION}/bin/start-bamboo.sh -fg
