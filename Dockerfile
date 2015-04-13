@@ -8,7 +8,7 @@ FROM phusion/baseimage:latest
 MAINTAINER Jan Kubat "jan.kubat@release.cz"
 
 # Set environment 
-ENV BAMBOO_VERSION 5.7.2
+ENV BAMBOO_VERSION 5.8.1
 ENV BAMBOO_INSTALL /opt/atlassian/bamboo
 ENV BAMBOO_HOME    /var/atlassian/bamboo
 
