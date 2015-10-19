@@ -3,12 +3,12 @@
 # Based on phusion/baseimage image
 ############################################################
 
-FROM phusion/baseimage:latest
+FROM jjworren/docker-base:jessie
 
-MAINTAINER Jan Kubat "jan.kubat@release.cz"
+MAINTAINER JJWorren "jjworren@release.cz"
 
 # Set environment 
-ENV BAMBOO_VERSION 5.9.2
+ENV BAMBOO_VERSION 5.9.7
 ENV BAMBOO_INSTALL /opt/atlassian/bamboo
 ENV BAMBOO_HOME    /var/atlassian/bamboo
 
